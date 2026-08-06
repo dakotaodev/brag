@@ -13,19 +13,17 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "List exiting brags!",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		r := jsonstorage.NewJsonRepository("./brag.json")
 
 		entries, err := r.List(cmd.Context())
 		if err != nil {
 			return err
+		}
+		if len(entries) == 0 {
+			fmt.Println("No existing entries, find something to brag about!")
+			return nil
 		}
 		fmt.Println("===========================")
 		for i := 0; i < len(entries); i++ {
@@ -40,14 +38,4 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
