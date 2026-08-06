@@ -1,12 +1,12 @@
 /*
 Copyright © 2026 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
 
+	jsonstorage "github.com/dakotaodev/brag/internal/storage/json"
 	"github.com/spf13/cobra"
 )
 
@@ -20,8 +20,21 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		r := jsonstorage.NewJsonRepository("./brag.json")
+
+		entries, err := r.List(cmd.Context())
+		if err != nil {
+			return err
+		}
+		fmt.Println("===========================")
+		for i := 0; i < len(entries); i++ {
+			e := entries[i]
+			fmt.Printf("%s - %s\n", e.CreatedAt.Format("Jan 2, 2006 at 3:04 PM"), e.Value)
+		}
+		fmt.Println("===========================")
+
+		return nil
 	},
 }
 
