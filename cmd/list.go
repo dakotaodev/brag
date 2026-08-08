@@ -13,13 +13,13 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List exiting brags!",
+	Short: "List existing brags!",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		r, err := jsonstorage.NewJsonRepository()
 		if err != nil {
 			return err
 		}
-		entries, err := r.List(cmd.Context())
+		entries, err := r.List()
 		if err != nil {
 			return err
 		}

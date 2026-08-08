@@ -1,7 +1,6 @@
 package jsonstorage
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -32,7 +31,6 @@ func NewJsonRepository() (*Repository, error) {
 }
 
 func (r *Repository) Add(
-	ctx context.Context,
 	entry brag.Entry,
 ) (brag.Entry, error) {
 
@@ -54,9 +52,7 @@ func (r *Repository) Add(
 
 }
 
-func (r *Repository) List(
-	ctx context.Context,
-) ([]brag.Entry, error) {
+func (r *Repository) List() ([]brag.Entry, error) {
 	entries, err := r.readFile()
 	if err != nil {
 		return make([]brag.Entry, 0), err
@@ -65,7 +61,6 @@ func (r *Repository) List(
 }
 
 func (r *Repository) Delete(
-	ctx context.Context,
 	id string,
 ) error {
 	r.mu.Lock()
@@ -88,7 +83,6 @@ func (r *Repository) Delete(
 }
 
 func (r *Repository) Update(
-	ctx context.Context,
 	id string,
 	newValue string,
 ) error {

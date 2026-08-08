@@ -31,7 +31,7 @@ var addCmd = &cobra.Command{
 			CreatedAt:  time.Now(),
 			ModifiedAt: time.Now(),
 		}
-		if _, err := r.Add(cmd.Context(), entry); err != nil {
+		if _, err := r.Add(entry); err != nil {
 			return fmt.Errorf("add brag entry: %w", err)
 		}
 

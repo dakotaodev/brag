@@ -18,7 +18,7 @@ var updateCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		if err := r.Update(cmd.Context(), args[0], args[1]); err != nil {
+		if err := r.Update( args[0], args[1]); err != nil {
 			return err
 		}
 		return nil
