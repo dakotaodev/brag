@@ -15,8 +15,10 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List exiting brags!",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		r := jsonstorage.NewJsonRepository()
-
+		r, err := jsonstorage.NewJsonRepository()
+		if err != nil {
+			return err
+		}
 		entries, err := r.List(cmd.Context())
 		if err != nil {
 			return err

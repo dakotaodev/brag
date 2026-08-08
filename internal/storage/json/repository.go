@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"slices"
@@ -18,16 +19,16 @@ type Repository struct {
 	mu   sync.Mutex
 }
 
-func NewJsonRepository() *Repository {
+func NewJsonRepository() (*Repository, error) {
 	dir, err := os.UserConfigDir()
 	if err!= nil {
-		return nil
+		return nil, fmt.Errorf("unable to get platform dir for user: %w", err)
 	}
 	path := filepath.Join(dir, "brag")
 	if err:=os.MkdirAll(path, 0o700); err != nil {
-		return nil
+		return nil, fmt.Errorf("unable create directory at %w", err)
 	}
-	return &Repository{path: filepath.Join(path, "brag.json")}
+	return &Repository{path: filepath.Join(path, "brag.json")}, nil
 }
 
 func (r *Repository) Add(

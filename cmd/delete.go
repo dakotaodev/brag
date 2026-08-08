@@ -14,7 +14,10 @@ var deleteCmd = &cobra.Command{
 		if len(args) != 1 {
 			return errors.New("Incorrect number of args.")
 		}
-		r:=jsonstorage.NewJsonRepository()
+		r, err := jsonstorage.NewJsonRepository()
+		if err != nil {
+			return err
+		}
 		if err:= r.Delete(cmd.Context(), args[0]); err != nil {
 			return err
 		}

@@ -21,7 +21,10 @@ var addCmd = &cobra.Command{
 		if len(args) != 1 {
 			return fmt.Errorf("Incorrect number of arguments. ")
 		}
-		r := jsonstorage.NewJsonRepository()
+		r, err := jsonstorage.NewJsonRepository()
+		if err != nil {
+			return err
+		}
 		entry := brag.Entry{
 			ID:         uuid.NewString()[:4],
 			Value:      args[0],
