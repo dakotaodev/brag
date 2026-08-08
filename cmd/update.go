@@ -14,7 +14,7 @@ var updateCmd = &cobra.Command{
 		if len(args) != 2 {
 			return errors.New("Incorrect number of args.")
 		}
-		r:= jsonstorage.NewJsonRepository("./brag.json")
+		r:= jsonstorage.NewJsonRepository()
 		
 		if err := r.Update(cmd.Context(), args[0], args[1]); err != nil {
 			return err

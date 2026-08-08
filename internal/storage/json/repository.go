@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
+	"path/filepath"
 	"slices"
 	"sync"
 	"time"
@@ -17,8 +18,16 @@ type Repository struct {
 	mu   sync.Mutex
 }
 
-func NewJsonRepository(path string) *Repository {
-	return &Repository{path: path}
+func NewJsonRepository() *Repository {
+	dir, err := os.UserConfigDir()
+	if err!= nil {
+		return nil
+	}
+	path := filepath.Join(dir, "brag")
+	if err:=os.MkdirAll(path, 0o700); err != nil {
+		return nil
+	}
+	return &Repository{path: filepath.Join(path, "brag.json")}
 }
 
 func (r *Repository) Add(
