@@ -70,11 +70,18 @@ func (r *Repository) Delete(
 	if err != nil {
 		return err
 	}
+	found := false
 	entries = slices.DeleteFunc(entries, func(entry brag.Entry) bool {
-		return entry.ID == id
+
+		if entry.ID == id {
+			found = true
+			return true
+		}
+		return false
+
 	})
 
-	if len(entries) == 0 {
+	if !found {
 		return fmt.Errorf("Unable to delete record for ID %s as it was not found.", id)
 	}
 

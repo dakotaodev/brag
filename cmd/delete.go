@@ -18,7 +18,7 @@ var deleteCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		if err := r.Delete( args[0]); err != nil {
+		if err := r.Delete(args[0]); err != nil {
 			return err
 		}
 		return nil
