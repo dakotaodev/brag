@@ -28,7 +28,7 @@ var listCmd = &cobra.Command{
 		fmt.Println("===========================")
 		for i := 0; i < len(entries); i++ {
 			e := entries[i]
-			fmt.Printf("%s - %s\n", e.CreatedAt.Format("Jan 2, 2006 at 3:04 PM"), e.Value)
+			fmt.Printf("%s - %s - %s\n", e.ID, e.CreatedAt.Format("Jan 2, 2006 at 3:04 PM"), e.Value)
 		}
 		fmt.Println("===========================")
 

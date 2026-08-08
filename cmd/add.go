@@ -9,6 +9,7 @@ import (
 
 	"github.com/dakotaodev/brag/internal/brag"
 	jsonstorage "github.com/dakotaodev/brag/internal/storage/json"
+	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 )
 
@@ -18,11 +19,11 @@ var addCmd = &cobra.Command{
 	Short: "Add a brag!",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
-			fmt.Printf("Incorrect number of arguments. You provided %d, only 1 is expected", len(args))
 			return fmt.Errorf("Incorrect number of arguments. ")
 		}
 		r := jsonstorage.NewJsonRepository("./brag.json")
 		entry := brag.Entry{
+			ID:         uuid.NewString()[:4],
 			Value:      args[0],
 			CreatedAt:  time.Now(),
 			ModifiedAt: time.Now(),

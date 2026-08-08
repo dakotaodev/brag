@@ -11,6 +11,7 @@ const (
 )
 
 type Entry struct {
+	ID         string    `json:"id"`
 	Category   Category  `json:"category,omitempty"`
 	CreatedAt  time.Time `json:"created,omitempty"`
 	ModifiedAt time.Time `json:"modified,omitempty"`

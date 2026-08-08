@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
+	"slices"
 	"sync"
+	"time"
 
 	"github.com/dakotaodev/brag/internal/brag"
 )
@@ -50,6 +52,48 @@ func (r *Repository) List(
 		return make([]brag.Entry, 0), err
 	}
 	return entries, nil
+}
+
+func (r *Repository) Delete(
+	ctx context.Context,
+	id string,
+) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	entries, err:= r.readFile()
+	if err!=nil {
+		return err
+	}
+	entries = slices.DeleteFunc(entries, func(entry brag.Entry) bool {
+		return entry.ID == id
+	})
+	return r.writeFile(entries)
+
+}
+
+func (r *Repository) Update(
+	ctx context.Context,
+	id string,
+	newValue string,
+) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	entries, err := r.readFile()
+	if err!=nil {
+		return err
+	}
+	for i,e := range entries {
+		if e.ID == id {
+			e.Value = newValue
+			e.ModifiedAt = time.Now()
+			entries[i] = e
+			return r.writeFile(entries)	
+		}
+	}
+	return errors.New("ID specified does not exist. Please validate or use the add command.")
+
 }
 
 func (r *Repository) readFile() ([]brag.Entry, error) {
