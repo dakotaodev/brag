@@ -8,7 +8,7 @@ import (
 )
 
 var deleteCmd = &cobra.Command{
-	Use: "delete",
+	Use:   "delete",
 	Short: "Delete a brag!",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
@@ -18,7 +18,7 @@ var deleteCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		if err:= r.Delete(cmd.Context(), args[0]); err != nil {
+		if err := r.Delete(cmd.Context(), args[0]); err != nil {
 			return err
 		}
 		return nil

@@ -21,11 +21,11 @@ type Repository struct {
 
 func NewJsonRepository() (*Repository, error) {
 	dir, err := os.UserConfigDir()
-	if err!= nil {
+	if err != nil {
 		return nil, fmt.Errorf("unable to get platform dir for user: %w", err)
 	}
 	path := filepath.Join(dir, "brag")
-	if err:=os.MkdirAll(path, 0o700); err != nil {
+	if err := os.MkdirAll(path, 0o700); err != nil {
 		return nil, fmt.Errorf("unable create directory at %w", err)
 	}
 	return &Repository{path: filepath.Join(path, "brag.json")}, nil
@@ -71,13 +71,18 @@ func (r *Repository) Delete(
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	entries, err:= r.readFile()
-	if err!=nil {
+	entries, err := r.readFile()
+	if err != nil {
 		return err
 	}
 	entries = slices.DeleteFunc(entries, func(entry brag.Entry) bool {
 		return entry.ID == id
 	})
+
+	if len(entries) == 0 {
+		return fmt.Errorf("Unable to delete record for ID %s as it was not found.", id)
+	}
+
 	return r.writeFile(entries)
 
 }
@@ -91,15 +96,15 @@ func (r *Repository) Update(
 	defer r.mu.Unlock()
 
 	entries, err := r.readFile()
-	if err!=nil {
+	if err != nil {
 		return err
 	}
-	for i,e := range entries {
+	for i, e := range entries {
 		if e.ID == id {
 			e.Value = newValue
 			e.ModifiedAt = time.Now()
 			entries[i] = e
-			return r.writeFile(entries)	
+			return r.writeFile(entries)
 		}
 	}
 	return errors.New("ID specified does not exist. Please validate or use the add command.")

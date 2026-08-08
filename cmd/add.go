@@ -26,7 +26,7 @@ var addCmd = &cobra.Command{
 			return err
 		}
 		entry := brag.Entry{
-			ID:         uuid.NewString()[:4],
+			ID:         uuid.NewString()[:6],
 			Value:      args[0],
 			CreatedAt:  time.Now(),
 			ModifiedAt: time.Now(),

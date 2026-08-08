@@ -8,7 +8,7 @@ import (
 )
 
 var updateCmd = &cobra.Command{
-	Use: "update",
+	Use:   "update",
 	Short: "Update an existing brag!",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 2 {
@@ -17,7 +17,7 @@ var updateCmd = &cobra.Command{
 		r, err := jsonstorage.NewJsonRepository()
 		if err != nil {
 			return err
-		}		
+		}
 		if err := r.Update(cmd.Context(), args[0], args[1]); err != nil {
 			return err
 		}
